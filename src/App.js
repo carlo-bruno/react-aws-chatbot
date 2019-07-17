@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { ChatBot } from 'aws-amplify-react';
+
+class App extends Component {
+  handleComplete(err, confirmation) {
+    if (err) {
+      alert('Bot conversation failed');
+      return;
+    }
+    alert('Success:' + JSON.stringify(confirmation, null, 2));
+    return 'Reservation booked. Thank you! What would you like to do next?';
+  }
+
+  render() {
+    return (
+      <div className='App'>
+        <ChatBot
+          title='My React Bot'
+          botName='BookTripBotMOBILEHUB'
+          welcomeMessage='Welcome, how can I help you today?'
+          onComplete={this.handleComplete.bind(this)}
+          clearOnComplete={true}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
